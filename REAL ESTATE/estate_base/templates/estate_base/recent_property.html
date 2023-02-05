@@ -1,0 +1,18 @@
+            {% for item in latest_property %}
+            <div class="container">
+                <div class="row">
+<!--                    <div class="proerty-th">-->
+                        <div class="col-sm-6 col-md-3 p0 proerty-th">
+                            <div class="box-two proerty-item">
+                                <div class="item-thumb">
+                                    <a href="{% url 'property_single' item.id %}" ><img src="{{ item.house_images.url }}"></a>
+                                </div>
+                                <div class="item-entry overflow">
+                                    <h5><a href="{% url 'property_single' item.id %}" >{{ item.property_name }} </a></h5>
+                                    <div class="dot-hr"></div>
+                                    <span class="pull-left"><b>Area :</b> {{ item.area }}m </span>
+                                    <span class="proerty-price pull-right">MWK {{ item.price }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}

@@ -1,0 +1,183 @@
+{%  extends 'estate_base/base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+        <div class="page-head"> 
+            <div class="container">
+                <div class="row">
+                    <div class="page-head-content">
+                        <h1 class="page-title">Property posted by {{ view.kwargs.username }} : {{ page_obj.paginator.count }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End page header -->
+
+        <!-- property area -->
+        <div class="content-area recent-property" style="background-color: #FFF;">
+            <div class="container">   
+                <div class="row">
+
+                    <div class="col-md-9 pr-30 padding-top-40 properties-page user-properties">
+
+                        <div class="section"> 
+                            <div class="page-subheader sorting pl0 pr-10">
+
+
+                                <ul class="sort-by-list pull-left">
+                                    <li class="active">
+                                        <a href="javascript:void(0);" class="order_by_date" data-orderby="property_date" data-order="ASC">
+                                            Property Date <i class="fa fa-sort-amount-asc"></i>					
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="javascript:void(0);" class="order_by_price" data-orderby="property_price" data-order="DESC">
+                                            Property Price <i class="fa fa-sort-numeric-desc"></i>						
+                                        </a>
+                                    </li>
+                                </ul><!--/ .sort-by-list-->
+
+                                <div class="items-per-page pull-right">
+                                    <label for="items_per_page"><b>Property per page :</b></label>
+                                    <div class="sel">
+                                        <select id="items_per_page" name="per_page">
+                                            <option value="3">3</option>
+                                            <option value="6">6</option>
+                                            <option value="9">9</option>
+                                            <option selected="selected" value="12">12</option>
+                                            <option value="15">15</option>
+                                            <option value="30">30</option>
+                                            <option value="45">45</option>
+                                            <option value="60">60</option>
+                                        </select>
+                                    </div><!--/ .sel-->
+                                </div><!--/ .items-per-page-->
+                            </div>
+
+                        </div>
+
+                        <div class="section"> 
+                            <div id="list-type" class="proerty-th-list">
+                                {% for item in property_details %}
+                                    <div class="col-md-4 p0">
+                                        <div class="box-two proerty-item">
+                                            <div class="item-thumb">
+                                                <a href="{% url 'property_single' item.id %}" ><img src="{{ item.house_images.url }}"></a>
+                                            </div>
+                                            <div class="item-entry overflow">
+                                                <h5><a href="{% url 'property_single' item.id %}"> {{ item.property_name }}</a></h5>
+                                                <div class="dot-hr"></div>
+                                                <span class="pull-left"><b> Area :</b> {{ item.area }} </span>
+                                                <span class="proerty-price pull-right"> {{ item.price }}</span>
+                                                <p style="display: none;">{{ item.description }}</p>
+                                                <div class="property-icon">
+                                                    <img src="{% static 'assets/img/icon/bed.png' %}">({{ item.number_of_bedrooms }})|
+                                                    <img src="{% static 'assets/img/icon/shawer.png' %}">({{ item.number_of_bathrooms }})|
+                                                    <img src="{% static 'assets/img/icon/cars.png' %}">({{ item.garages }})
+
+                                                    <div class="dealer-action pull-right">
+                                                        {% if object.agent == user %}
+                                                            <a href="{% url 'update' object.id %}" class="button">Edit </a>
+                                                            <a href="{% url 'delete' object.id %}" class="button delete_user_car">Delete</a>
+                                                        {% endif %}
+                                                        <a href="{% url 'property_single' item.id %}" class="button">View</a>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+
+
+                        <div class="section"> 
+                            <div class="pull-right">
+                                <div class="pagination">
+                                    <ul>
+<!--                                        {% if property_details.has_previous %}-->
+<!--                                        <li><a href="{% url 'estate_properties' %}?page=">1</a></li>-->
+<!--                                        <li><a href="{% url 'estate_properties' %}?page={{ page.previous_page_number }}">Prev</a></li>-->
+<!--                                        {% endif %}-->
+
+<!--                                        {% for num_page in property_details.paginator.page_range %}-->
+<!--                                            {% if property_details.number == num_page %}-->
+<!--                                                <li ><a style="color: black; " class="page-item-active" href="{% url 'estate_properties' %}?page={{ num_page }}">{{ num_page }}</a></li>-->
+<!--                                            {% else %}-->
+<!--                                                <li><a class="page-item" href="{% url 'estate_properties' %}?page={{ num_page }}">{{ num_page }}</a></li>-->
+<!--                                            {% endif %}-->
+<!--                                        {% endfor %}-->
+
+<!--                                        {% if property_details.has_next %}-->
+<!--                                            <li><a href="{% url 'estate_properties' %}?page={{ page.next_page_number }}">Next</a></li>-->
+<!--    &lt;!&ndash;                                        <li><a href="{% url 'estate_properties' %}?page={{ page.last_page_number }}">Last</a></li>&ndash;&gt;-->
+<!--                                        {% endif %}-->
+
+<!--                                            class based view pagination-->
+<!--                                        {% if is_paginated %}-->
+<!--                                        {% if page_obj.has_previous %}-->
+<!--                                            <li><a href="?page=1">1</a></li>-->
+<!--                                            <li><a href="?page = {{ page_obj.previous_page }}">Prev</a></li>-->
+<!--                                        {% endif %}-->
+
+<!--                                        {% for num in page_obj.paginator.page_range %}-->
+<!--                                            {% if page_obj.number == num %}-->
+<!--                                                <li><a href="?page={{ num }}">{{ num }}</a></li>-->
+<!--                                            {% elif num > page_obj.number|add:'-2' and num < page_obj.number|add:'2' %}-->
+<!--                                                <li><a href="?page={{ num }}">{{ num }}</a></li>-->
+<!--                                            {% endif %}-->
+<!--                                        {% endfor %}-->
+
+<!--                                        {% if page_obj.has_previous %}-->
+<!--                                            <li><a href="?page={{ page_obj.next_page_number }}">Next</a></li>-->
+<!--                                            <li><a href="?page = {{ page_obj.paginator.num_pages }}">Last</a></li>-->
+<!--                                        {% endif %}-->
+
+<!--                                    {% endif %}-->
+
+
+
+
+
+<!--                                        <li><a href="#">Prev</a></li>-->
+<!--                                        <li><a href="#">1</a></li>-->
+<!--                                        <li><a href="#">2</a></li>-->
+<!--                                        <li><a href="#">3</a></li>-->
+<!--                                        <li><a href="#">4</a></li>-->
+<!--                                        <li><a href="#">Next</a></li>-->
+                                    </ul>
+                                </div>
+                            </div>                
+                        </div>
+
+                    </div>       
+
+<!--                    <div class="col-md-3 p0 padding-top-40">-->
+<!--                        <div class="blog-asside-right">-->
+<!--                            <div class="panel panel-default sidebar-menu wow fadeInRight animated" >-->
+<!--                                <div class="panel-heading">-->
+<!--                                    <h3 class="panel-title">Hello Kimaro</h3>-->
+<!--                                </div>-->
+<!--                                <div class="panel-body search-widget">-->
+
+<!--                                </div>-->
+<!--                            </div>-->
+
+<!--                            <div class="panel panel-default sidebar-menu wow fadeInRight animated">-->
+<!--                                <div class="panel-heading">-->
+<!--                                    <h3 class="panel-title">Recommended</h3>-->
+<!--                                </div>-->
+<!--                                <div class="panel-body recent-property-widget">-->
+
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

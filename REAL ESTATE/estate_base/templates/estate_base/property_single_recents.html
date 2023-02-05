@@ -1,0 +1,15 @@
+                                        {% for item in recents %}
+                                        <li>
+                                            <div class="col-md-3 col-sm-3 col-xs-3 blg-thumb p0">
+                                                <a href="{% url 'property_single' item.id %}"><img src="{{item.house_images.url}}"></a>
+<!--                                                <span class="property-seeker">-->
+<!--                                                    <b class="b-1"></b>-->
+<!--                                                    <b class="b-2"></b>-->
+<!--                                                </span>-->
+                                            </div>
+                                            <div class="col-md-8 col-sm-8 col-xs-8 blg-entry">
+                                                <h6> <a href="{% url 'property_single' item.id %}">{{item.property_name}}</a></h6>
+                                                <span class="property-price">{{item.price}}</span>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
